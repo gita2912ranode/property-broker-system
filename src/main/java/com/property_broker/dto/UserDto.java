@@ -3,7 +3,9 @@ package com.property_broker.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class UserDto {
 
     @NotBlank(message = "Username is required")
@@ -24,7 +26,7 @@ public class UserDto {
     @Size(max = 50, message = "Last name cannot exceed 50 characters")
     private String lastName;
 
-    @Size(max = 15, message = "Phone number cannot exceed 15 characters")
+    @Size(max = 10, message = "Phone number cannot exceed 15 characters")
     private String phone;
 
 

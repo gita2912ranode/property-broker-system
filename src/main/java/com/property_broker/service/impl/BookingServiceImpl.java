@@ -1,5 +1,6 @@
 package com.property_broker.service.impl;
 
+import com.property_broker.dto.BookingDto;
 import com.property_broker.entity.Booking;
 import com.property_broker.entity.Property;
 import com.property_broker.entity.User;
@@ -9,21 +10,23 @@ import com.property_broker.repository.PropertyRepository;
 import com.property_broker.repository.UserRepository;
 import com.property_broker.service.BookingService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository repo;
     private final PropertyRepository propertyRepo;
     private final UserRepository userRepo;
 
-    public BookingServiceImpl(BookingRepository repo, PropertyRepository propertyRepo, UserRepository userRepo) {
-        this.repo = repo;
-        this.propertyRepo = propertyRepo;
-        this.userRepo = userRepo;
-    }
+    private final ModelMapper modelMapper;
+
+   
 
     public List<Booking> findAll() {
         return repo.findAll();
@@ -34,7 +37,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public Booking create(String propertyId, String customerId, Booking booking) {
+    public Booking create(String propertyId, String customerId, BookingDto bookingDto) {
+        Booking booking=modelMapper.map(bookingDto,Booking.class);
         Property property = propertyRepo.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property not found: " + propertyId));
         User customer = userRepo.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + customerId));
         booking.setProperty(property);

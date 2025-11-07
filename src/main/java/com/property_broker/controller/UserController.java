@@ -1,13 +1,14 @@
 package com.property_broker.controller;
 
+import com.property_broker.dto.UserDto;
 import com.property_broker.entity.User;
 import com.property_broker.service.impl.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,7 +18,7 @@ public class UserController {
 
     public UserController(UserServiceImpl service) {
         this.service = service;
-    }
+    } 
 
     @GetMapping
     public ResponseEntity<List<User>> all() {
@@ -30,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        return ResponseEntity.ok(service.create(user));
+    public ResponseEntity<User> create(@Valid @RequestBody UserDto userDto) {
+        return ResponseEntity.ok(service.create(userDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable String id, @RequestBody User user) {
+    public ResponseEntity<User> update(@PathVariable String id, @RequestBody UserDto user) {
         return ResponseEntity.ok(service.update(id, user));
     }
 

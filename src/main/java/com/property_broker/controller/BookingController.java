@@ -1,16 +1,22 @@
 package com.property_broker.controller;
 
+import com.property_broker.dto.BookingDto;
 import com.property_broker.entity.Booking;
 import com.property_broker.service.impl.BookingServiceImpl;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/api/bookings")
-public class BookingController {
+public class BookingController { 
 
     private final BookingServiceImpl service;
 
@@ -32,7 +38,7 @@ public class BookingController {
      * Create booking: POST /api/bookings?propertyId=...&customerId=...
      */
     @PostMapping
-    public ResponseEntity<Booking> create(@RequestParam String propertyId, @RequestParam String customerId, @RequestBody Booking booking) {
+    public ResponseEntity<Booking> create(@RequestParam String propertyId, @RequestParam String customerId, @RequestBody BookingDto booking) {
         return ResponseEntity.ok(service.create(propertyId, customerId, booking));
     }
 

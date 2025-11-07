@@ -1,7 +1,9 @@
 package com.property_broker.controller;
 
+import com.property_broker.dto.RoleDto;
 import com.property_broker.entity.Role;
 import com.property_broker.service.impl.RoleServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +31,13 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<Role> create(@RequestBody Role role) {
-        return ResponseEntity.ok(service.create(role));
+    public ResponseEntity<Role> create(@Valid @RequestBody RoleDto roleDto) {
+        return ResponseEntity.ok(service.create(roleDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Role> update(@PathVariable String id, @RequestBody Role role) {
-        return ResponseEntity.ok(service.update(id, role));
+    public ResponseEntity<Role> update(@PathVariable String id, @Valid @RequestBody RoleDto roleDto) {
+        return ResponseEntity.ok(service.update(id, roleDto));
     }
 
     @DeleteMapping("/{id}")
