@@ -111,21 +111,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepo.save(user);
     }
 
-//	@Override
-//	public UserDetails loadUserByUserName(String username) {
-//        com.property_broker.entity.User u = userRepo.findByUsername(username.toLowerCase())
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-//
-//        String[] roleNames = u.getRoles().stream()
-//                .map(Role::getName)
-//                .toArray(String[]::new);
-//
-//        return org.springframework.security.core.userdetails.User.builder()
-//                .username(u.getUsername())
-//                .password(u.getPassword())
-//                .roles(roleNames)
-//                .build(); 
-//	}
 
 	@Override
     public boolean checkUserCredentails(String username, String password) {

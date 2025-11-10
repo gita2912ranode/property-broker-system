@@ -4,8 +4,7 @@ import com.property_broker.dto.UserDto;
 import com.property_broker.entity.User;
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 
 public interface UserService {

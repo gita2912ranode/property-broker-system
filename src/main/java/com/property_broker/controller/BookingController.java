@@ -3,15 +3,10 @@ package com.property_broker.controller;
 import com.property_broker.dto.BookingDto;
 import com.property_broker.entity.Booking;
 import com.property_broker.service.impl.BookingServiceImpl;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.UUID;
+
 
 
 @RestController

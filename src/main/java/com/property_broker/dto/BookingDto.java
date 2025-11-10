@@ -4,10 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
-import com.property_broker.constants.BookingStatus;
 @Data
 public class BookingDto {
     private String id;

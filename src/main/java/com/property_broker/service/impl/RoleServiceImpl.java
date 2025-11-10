@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository repo;

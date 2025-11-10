@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthController {
  
-    private final AuthenticationManager authenticationManager;
+    
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -46,18 +45,7 @@ public class AuthController {
     private final UserService userService;
     private final org.springframework.security.core.userdetails.UserDetailsService userDetailsService;
  
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-//    	
-//    	
-//        org.springframework.security.core.Authentication authentication=authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-//
-//
-//        
-//        String token = jwtTokenUtil.generateToken(request.getUsername());
-//        return ResponseEntity.ok(new LoginResponse(token));
-//    }
+
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
