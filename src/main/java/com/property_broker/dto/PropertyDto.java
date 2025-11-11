@@ -1,6 +1,6 @@
 package com.property_broker.dto;
 
-import com.property_broker.entity.PropertyImage;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -48,7 +48,7 @@ public class PropertyDto {
     @NotNull(message = "areaSqft is required")
     private Integer areaSqft;
 
-    private List<PropertyImage> images;
+    private String imageUrl;
 
 
 

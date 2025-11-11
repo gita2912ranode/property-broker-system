@@ -54,8 +54,7 @@ public class Property {
 
     private Instant updatedAt = Instant.now();
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    private List<PropertyImage> images;
+   private String imageUrl;
 
     
 }

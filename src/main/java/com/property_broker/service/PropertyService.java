@@ -1,6 +1,7 @@
 package com.property_broker.service;
 
 import com.property_broker.dto.PropertyDto;
+import com.property_broker.dto.PropertyResponseDto;
 import com.property_broker.entity.Property;
 
 import java.util.List;
