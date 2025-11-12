@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         
         user.setPassword(encoder.encode(user.getPassword())); 
+        System.out.println("User Phone Number="+user.getPhone());
         return userRepo.save(user);
     }
 

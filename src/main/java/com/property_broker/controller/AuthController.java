@@ -99,6 +99,7 @@ public class AuthController {
         newUser.setFirstName(request.getFirstName());
         newUser.setLastName(request.getLastName());
         newUser.setEmail(request.getEmail());
+        newUser.setPhone(request.getPhoneNo());
         newUser.setRoles(roles);
  
         userRepository.save(newUser);

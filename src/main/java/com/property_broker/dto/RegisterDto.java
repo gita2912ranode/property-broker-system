@@ -18,6 +18,9 @@ public class RegisterDto {
  
     @NotBlank(message = "Last name is required")
     private String lastName;
+    
+    @NotBlank(message = "Last name is required")
+    private String phoneNo;
  
     @Email(message = "Invalid email")
     @NotBlank(message = "Email is required")
