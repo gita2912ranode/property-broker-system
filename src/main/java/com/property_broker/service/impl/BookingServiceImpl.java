@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -26,7 +28,19 @@ public class BookingServiceImpl implements BookingService {
 
     private final ModelMapper modelMapper;
 
-   
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+    }
 
     public List<Booking> findAll() {
         return repo.findAll();
@@ -37,10 +51,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public Booking create(String propertyId, String customerId, BookingDto bookingDto) {
+    public Booking create(String propertyId, BookingDto bookingDto) {
+    	User user=getCurrentUser();
+    	String customerId=user.getId();
         Booking booking=modelMapper.map(bookingDto,Booking.class);
         Property property = propertyRepo.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property not found: " + propertyId));
-        User customer = userRepo.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + customerId));
+        User customer = userRepo.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found: " +customerId ));
         booking.setProperty(property);
         booking.setCustomer(customer);
         if (booking.getStatus() == null) booking.setStatus("REQUESTED");

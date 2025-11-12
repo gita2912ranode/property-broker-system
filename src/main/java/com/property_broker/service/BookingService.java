@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookingService {
     List<Booking> findAll();
     Booking findById(String id);
-    Booking create(String propertyId, String customerId, BookingDto booking);
+    Booking create(String propertyId, BookingDto booking);
     Booking updateStatus(String id, String status);
     void delete(String id);
 }

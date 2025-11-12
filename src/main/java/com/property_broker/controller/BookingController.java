@@ -37,8 +37,8 @@ public class BookingController {
      * Create booking: POST /api/bookings?propertyId=...&customerId=...
      */
     @PostMapping
-    public ResponseEntity<Booking> create(@RequestParam String propertyId, @RequestParam String customerId, @RequestBody BookingDto booking) {
-        return ResponseEntity.ok(service.create(propertyId, customerId, booking));
+    public ResponseEntity<Booking> create(@RequestParam String propertyId, @RequestBody BookingDto booking) {
+        return ResponseEntity.ok(service.create(propertyId, booking));
     }
 
     @PutMapping("/{id}/status")
