@@ -17,6 +17,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -73,30 +75,44 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Transactional
     public Property update(String id, PropertyDto propertyDto) {
-
-        Property payload=modelMapper.map(propertyDto,Property.class);
         Property existing = findById(id);
-        // update fields
-        existing.setTitle(payload.getTitle());
-        existing.setDescription(payload.getDescription());
-        existing.setPropertyType(payload.getPropertyType());
-        existing.setPrice(payload.getPrice());
-        existing.setAddress(payload.getAddress());
-        existing.setCity(payload.getCity());
-        existing.setState(payload.getState());
-        existing.setCountry(payload.getCountry());
-        existing.setZipcode(payload.getZipcode());
-        existing.setBedrooms(payload.getBedrooms());
-        existing.setBathrooms(payload.getBathrooms());
-        existing.setAreaSqft(payload.getAreaSqft());
-        existing.setStatus(payload.getStatus());
+        User currentUser = getCurrentUser();
+ 
+        if (!existing.getOwner().getId().equals(currentUser.getId())) {
+            throw new SecurityException("You are not authorized to update this property.");
+        }
+ 
+        existing.setTitle(propertyDto.getTitle());
+        existing.setDescription(propertyDto.getDescription());
+        existing.setPropertyType(propertyDto.getPropertyType());
+        existing.setPrice(propertyDto.getPrice());
+        existing.setAddress(propertyDto.getAddress());
+        existing.setCity(propertyDto.getCity());
+        existing.setState(propertyDto.getState());
+        existing.setCountry(propertyDto.getCountry());
+        existing.setZipcode(propertyDto.getZipcode());
+        existing.setBedrooms(propertyDto.getBedrooms());
+        existing.setBathrooms(propertyDto.getBathrooms());
+        existing.setAreaSqft(propertyDto.getAreaSqft());
+        existing.setImageUrl(propertyDto.getImageUrl());
+        existing.setUpdatedAt(Instant.now());
+ 
         return repo.save(existing);
     }
 
+    /**
+     * Delete property — only allowed for the property owner.
+     */
     @Transactional
     public void delete(String id) {
-        if (!repo.existsById(id)) throw new ResourceNotFoundException("Property not found: " + id);
-        repo.deleteById(id);
+        Property existing = findById(id);
+        User currentUser = getCurrentUser();
+ 
+        if (!existing.getOwner().getId().equals(currentUser.getId())) {
+            throw new SecurityException("You are not authorized to delete this property.");
+        }
+ 
+        repo.delete(existing);
     }
 
     public List<Property> searchProperties(

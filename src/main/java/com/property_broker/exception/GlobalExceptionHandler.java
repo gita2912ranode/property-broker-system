@@ -8,7 +8,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -45,6 +47,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleBadRequest(HttpMessageNotReadableException ex) {
         ApiError err = new ApiError(HttpStatus.BAD_REQUEST.value(), "Malformed JSON request", List.of(ex.getMessage()));
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<?> handleSecurity(SecurityException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of(
+                        "timestamp", Instant.now(),
+                        "status", 403,
+                        "error", "Forbidden",
+                        "message", ex.getMessage()
+                ));
     }
 
     @ExceptionHandler(Exception.class)
