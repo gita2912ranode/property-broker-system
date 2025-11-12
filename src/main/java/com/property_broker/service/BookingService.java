@@ -11,4 +11,5 @@ public interface BookingService {
     Booking create(String propertyId, BookingDto booking);
     Booking updateStatus(String id, String status);
     void delete(String id);
+    List<Booking> findByCustomer();
 }

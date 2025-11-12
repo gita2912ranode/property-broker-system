@@ -79,8 +79,11 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> findByProperty(String propertyId) {
         return repo.findByPropertyId(propertyId);
     }
-
-    public List<Booking> findByCustomer(String customerId) {
+    
+    @Override
+    public List<Booking> findByCustomer() {
+    	User user=getCurrentUser();
+    	String customerId=user.getId();
         return repo.findByCustomerId(customerId);
     }
 }

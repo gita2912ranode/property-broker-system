@@ -28,9 +28,9 @@ public class BookingController {
     public ResponseEntity<Booking> get(@PathVariable String id) {
         return ResponseEntity.ok(service.findById(id));
     }
-    @GetMapping("/{customerId}")
-    public ResponseEntity<List<Booking>> getPropertiesByCustomerId(@PathVariable String customerId) {
-        return ResponseEntity.ok(service.findByCustomer(customerId));
+    @GetMapping("/customer")
+    public ResponseEntity<List<Booking>> getPropertiesByCustomerId() {
+        return ResponseEntity.ok(service.findByCustomer());
     }
 
     /**
