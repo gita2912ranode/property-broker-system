@@ -48,30 +48,30 @@ public class SecurityConfig {
 						.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						.requestMatchers("/api/roles/**").permitAll()
 						.requestMatchers("/api/users/**", "/api/properties/**", "/api/bookings/**", "/api/roles/**")
-						.hasRole("ADMIN")
-
-						// User management - ADMIN only
-						.requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.GET, "/api/users/*").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.POST, "/api/users/*/roles").hasRole("ADMIN")
-						.requestMatchers(HttpMethod.DELETE, "/api/users/*/roles").hasRole("ADMIN")
-
-						// Property management
-						.requestMatchers(HttpMethod.POST, "/api/properties").hasAnyRole("OWNER", "BROKER")
-						.requestMatchers(HttpMethod.PUT, "/api/properties/*").hasAnyRole("OWNER", "BROKER")
-						.requestMatchers(HttpMethod.DELETE, "/api/properties/*").hasAnyRole("OWNER", "BROKER", "ADMIN")
-						.requestMatchers(HttpMethod.POST, "/api/properties/*/images").hasAnyRole("OWNER", "BROKER")
-						.requestMatchers(HttpMethod.GET, "/api/properties").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/properties/*").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/properties/search").permitAll()
-
-						//Booking Management
-						.requestMatchers(HttpMethod.GET, "/api/bookings").authenticated()
-						.requestMatchers(HttpMethod.GET, "/api/bookings/*").authenticated()
-						.requestMatchers(HttpMethod.POST, "/api/bookings").hasRole("CUSTOMER")
-						.requestMatchers(HttpMethod.PUT, "/api/bookings/*/status").hasAnyRole("OWNER", "BROKER")
+						.permitAll()
+//
+//						// User management - ADMIN only
+//						.requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+//						.requestMatchers(HttpMethod.GET, "/api/users/*").hasRole("ADMIN")
+//						.requestMatchers(HttpMethod.PUT, "/api/users/*").hasRole("ADMIN")
+//						.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasRole("ADMIN")
+//						.requestMatchers(HttpMethod.POST, "/api/users/*/roles").hasRole("ADMIN")
+//						.requestMatchers(HttpMethod.DELETE, "/api/users/*/roles").hasRole("ADMIN")
+//
+//						// Property management
+//						.requestMatchers(HttpMethod.POST, "/api/properties").hasAnyRole("OWNER", "BROKER")
+//						.requestMatchers(HttpMethod.PUT, "/api/properties/*").hasAnyRole("OWNER", "BROKER")
+//						.requestMatchers(HttpMethod.DELETE, "/api/properties/*").hasAnyRole("OWNER", "BROKER", "ADMIN")
+//						.requestMatchers(HttpMethod.POST, "/api/properties/*/images").hasAnyRole("OWNER", "BROKER")
+//						.requestMatchers(HttpMethod.GET, "/api/properties").permitAll()
+//						.requestMatchers(HttpMethod.GET, "/api/properties/*").permitAll()
+//						.requestMatchers(HttpMethod.GET, "/api/properties/search").permitAll()
+//
+//						//Booking Management
+//						.requestMatchers(HttpMethod.GET, "/api/bookings").authenticated()
+//						.requestMatchers(HttpMethod.GET, "/api/bookings/*").authenticated()
+//						.requestMatchers(HttpMethod.POST, "/api/bookings").hasRole("CUSTOMER")
+//						.requestMatchers(HttpMethod.PUT, "/api/bookings/*/status").hasAnyRole("OWNER", "BROKER")
 
 						.anyRequest().authenticated())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

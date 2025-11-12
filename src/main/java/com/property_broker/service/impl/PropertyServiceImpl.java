@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +33,20 @@ public class PropertyServiceImpl implements PropertyService {
         this.userRepo = userRepo;
         this.modelMapper = modelMapper;
     }
+    
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        return userRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+    }
 
     public List<Property> findAll() {
         return repo.findAll();
@@ -39,12 +55,17 @@ public class PropertyServiceImpl implements PropertyService {
     public Property findById(String id) {
         return repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Property not found: " + id));
     }
+    
 
     @Transactional
-    public Property create(PropertyDto propertydto, String ownerId) {
+    public Property create(PropertyDto propertydto) {
+    	User loggedInUser=getCurrentUser();
+    	String currentUserId=loggedInUser.getId();
+    	
+    	
         Property property=modelMapper.map(propertydto,Property.class);
-        if (ownerId != null) {
-            User owner = userRepo.findById(ownerId).orElseThrow(() -> new ResourceNotFoundException("Owner not found: " + ownerId));
+        if (currentUserId != null) {
+            User owner = userRepo.findById(currentUserId).orElseThrow(() -> new ResourceNotFoundException("Owner not found: " + currentUserId));
             property.setOwner(owner);
         }
         return repo.save(property);
@@ -111,6 +132,18 @@ public class PropertyServiceImpl implements PropertyService {
                 .filter(Objects::nonNull)
                 .reduce((s1, s2) -> s1.and(s2))
                 .orElse((root, query, cb) -> cb.conjunction());
+    }
+    
+    @Override
+    public List<Property> findByOwnerId() {
+    	
+    	User owner=getCurrentUser();
+    	String ownerId=owner.getId();
+        List<Property> properties =repo.findByOwner_Id(ownerId);
+        if (properties.isEmpty()) {
+            throw new ResourceNotFoundException("No properties found for owner ID: " + ownerId);
+        }
+        return properties;
     }
 
 }

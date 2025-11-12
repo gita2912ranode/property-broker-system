@@ -24,7 +24,7 @@ public class PropertyDto {
     @NotNull(message = "price is required")
     private Double price;
 
-    @NotBlank(message = "address is required")
+   
     private String address;
 
     @NotBlank(message = "city is required")

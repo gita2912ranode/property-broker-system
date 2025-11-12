@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface PropertyService{
         List<Property> findAll();
-        Property create(PropertyDto property, String ownerId);
+        Property create(PropertyDto property);
         Property update(String id, PropertyDto payload);
         void delete(String id);
 
         List<Property> searchProperties(String type, Double minPrice, Double maxPrice,
                                         String city, String state, Integer bedrooms, Integer bathrooms,
                                         String sortBy, String direction);
+        List<Property> findByOwnerId();
 }

@@ -28,6 +28,10 @@ public class BookingController {
     public ResponseEntity<Booking> get(@PathVariable String id) {
         return ResponseEntity.ok(service.findById(id));
     }
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<Booking>> getPropertiesByCustomerId(@PathVariable String customerId) {
+        return ResponseEntity.ok(service.findByCustomer(customerId));
+    }
 
     /**
      * Create booking: POST /api/bookings?propertyId=...&customerId=...
@@ -47,4 +51,6 @@ public class BookingController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+    
+   
 }

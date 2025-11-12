@@ -3,7 +3,12 @@ package com.property_broker.controller;
 import com.property_broker.dto.PropertyDto;
 import com.property_broker.entity.Property;
 import com.property_broker.service.impl.PropertyServiceImpl;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
+	
 
     private final PropertyServiceImpl service;
+    @Value("${jwt.secret}") 
+    String jwtSecretBase64;
 
     public PropertyController(PropertyServiceImpl service) {
         this.service = service;
@@ -37,8 +45,27 @@ public class PropertyController {
      */
     @PostMapping
     public ResponseEntity<Property> create(@Valid @RequestBody PropertyDto propertyDto,
-                                           @RequestParam String ownerId) {
-        return ResponseEntity.ok(service.create(propertyDto, ownerId));
+                                           @RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+    	 String token = null;
+    	    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+    	        token = authHeader.substring(7);
+    	    }
+    	    System.out.println("Extracted token: " + token);
+    	    
+
+
+	Claims claims = Jwts.parserBuilder()
+	        .setSigningKey(jwtSecretBase64) // e.g., Keys.hmacShaKeyFor(secret.getBytes())
+	        .build()
+	        .parseClaimsJws(token)
+	        .getBody();
+
+
+     String userName = claims.getSubject(); // 'sub' field
+
+
+        return ResponseEntity.ok(service.create(propertyDto));
     }
 
     @PutMapping("/{id}")
@@ -79,6 +106,11 @@ public class PropertyController {
         );
 
         return ResponseEntity.ok(result);
+    }
+    
+    @GetMapping("/owner")
+    public ResponseEntity<List<Property>> getPropertiesByOwner() {
+        return ResponseEntity.ok(service.findByOwnerId());
     }
 }
 

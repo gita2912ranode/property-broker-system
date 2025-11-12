@@ -10,4 +10,5 @@ import java.util.List;
 public interface PropertyRepository extends JpaRepository<Property, String>, JpaSpecificationExecutor<Property> {
     List<Property> findByCity(String city);
     List<Property> findByStatus(String Status);
+    List<Property> findByOwner_Id(String ownerId);
 }
