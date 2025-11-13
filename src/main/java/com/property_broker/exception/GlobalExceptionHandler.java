@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.property_broker.dto.ApiError;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;

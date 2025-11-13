@@ -1,4 +1,4 @@
-package com.property_broker.exception;
+package com.property_broker.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
