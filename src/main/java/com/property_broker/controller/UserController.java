@@ -12,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@Validated
 public class UserController {
+	
     private final UserServiceImpl service;
 
     public UserController(UserServiceImpl service) {

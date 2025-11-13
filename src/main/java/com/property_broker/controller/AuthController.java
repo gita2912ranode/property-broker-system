@@ -1,7 +1,5 @@
 package com.property_broker.controller;
 
-
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,23 +27,30 @@ import com.property_broker.security.JwtUtil;
 import com.property_broker.service.UserService;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
  
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 @Slf4j
 public class AuthController {
- 
-    
-    private final UserRepository userRepository;
+
+	private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil; 
     private final UserService userService;
     private final org.springframework.security.core.userdetails.UserDetailsService userDetailsService;
  
+    public AuthController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,
+			JwtUtil jwtUtil, UserService userService, UserDetailsService userDetailsService) {
+		super();
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtUtil = jwtUtil;
+		this.userService = userService;
+		this.userDetailsService = userDetailsService;
+	}
 
     
     @PostMapping("/login")
