@@ -40,12 +40,6 @@ public class JwtUtil {
 
             @Value("${jwt.validity-ms}") long validityInMs) {
  
-//        if (jwtSecretBase64 == null || jwtSecretBase64.isBlank()) {
-
-//            throw new IllegalStateException("jwt.secret must be set in application properties (base64-encoded)");
-
-//        }
- 
         byte[] keyBytes = Decoders.BASE64.decode(jwtSecretBase64);
 
         this.key = Keys.hmacShaKeyFor(keyBytes); 
